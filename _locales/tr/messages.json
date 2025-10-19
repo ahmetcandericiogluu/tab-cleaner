@@ -1,0 +1,54 @@
+{
+  "extensionName": {
+    "message": "Tab Cleaner",
+    "description": "Eklenti adı"
+  },
+  "extensionDescription": {
+    "message": "Tekrarlayan sekmeleri otomatik tespit eder ve kullanıcı onayı ile kapatır. Tracking parametrelerini temizler.",
+    "description": "Eklenti açıklaması"
+  },
+  "commandDescription": {
+    "message": "Tekrarlayan sekmeleri bul ve kapat",
+    "description": "Klavye komutu açıklaması"
+  },
+  "actionTitle": {
+    "message": "Tab Cleaner - Tekrarlayan sekmeleri temizle",
+    "description": "Eklenti eylem başlığı"
+  },
+  "noDuplicatesFound": {
+    "message": "Tekrarlayan sekme bulunamadı 🎉",
+    "description": "Tekrarlayan sekme bulunamadığında gösterilen mesaj"
+  },
+  "duplicatesFoundConfirm": {
+    "message": "$COUNT$ tekrarlayan sekme bulundu. Kapatmak için tıklayın.",
+    "description": "Tekrarlayan sekmeler için onay mesajı",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "duplicatesClosed": {
+    "message": "$COUNT$ tekrarlayan sekme kapatıldı ✅",
+    "description": "Sekmeler kapatıldıktan sonra başarı mesajı",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "unexpectedError": {
+    "message": "Beklenmeyen bir hata oluştu ❌",
+    "description": "Genel hata mesajı"
+  },
+  "closeButton": {
+    "message": "Kapat",
+    "description": "Kapat butonu metni"
+  },
+  "cancelButton": {
+    "message": "İptal",
+    "description": "İptal butonu metni"
+  }
+}

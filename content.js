@@ -16,7 +16,7 @@ class TabCleanerContent {
   handleMessage(message, sender, sendResponse) {
     if (message.action === 'askConfirmation') {
       const confirmed = confirm(
-        `${message.count} tekrarlayan sekme bulundu. Kapatılsın mı?`
+        chrome.i18n.getMessage('duplicatesFoundConfirm', [message.count.toString()])
       );
       sendResponse({ confirmed });
       return true; // Keep message channel open for async response

@@ -37,7 +37,7 @@ class TabCleaner {
       const duplicates = await this.findDuplicateTabs();
       
       if (duplicates.length === 0) {
-        return this.showNotification('Tekrarlayan sekme bulunamadı 🎉');
+        return this.showNotification(chrome.i18n.getMessage('noDuplicatesFound'));
       }
 
       const confirmed = await this.getUserConfirmation(duplicates.length);
@@ -47,13 +47,13 @@ class TabCleaner {
       }
 
       await this.closeTabs(duplicates);
-      this.showNotification(`${duplicates.length} tekrarlayan sekme kapatıldı ✅`);
+      this.showNotification(chrome.i18n.getMessage('duplicatesClosed', [duplicates.length.toString()]));
       
     } catch (error) {
       // Silent error handling for production
       // Don't show error notification for common issues
       if (!error.message?.includes('Cannot access')) {
-        this.showNotification('Beklenmeyen bir hata oluştu ❌');
+        this.showNotification(chrome.i18n.getMessage('unexpectedError'));
       }
     }
   }
@@ -111,10 +111,10 @@ class TabCleaner {
         type: 'basic',
         iconUrl: 'icons/48.png',
         title: 'Tab Cleaner',
-        message: `${count} tekrarlayan sekme bulundu. Kapatmak için tekrar tıklayın.`,
+        message: chrome.i18n.getMessage('duplicatesFoundConfirm', [count.toString()]),
         buttons: [
-          { title: 'Kapat' },
-          { title: 'İptal' }
+          { title: chrome.i18n.getMessage('closeButton') },
+          { title: chrome.i18n.getMessage('cancelButton') }
         ]
       });
 

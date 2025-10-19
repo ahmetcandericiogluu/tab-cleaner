@@ -2,7 +2,8 @@
   "manifest_version": 3,
   "name": "Tab Cleaner",
   "version": "1.1.0",
-  "description": "Tekrarlayan sekmeleri otomatik tespit eder ve kullanıcı onayı ile kapatır. Tracking parametrelerini temizler.",
+  "description": "Automatically detects and removes duplicate tabs with user confirmation. Cleans tracking parameters for better duplicate detection.",
+  "default_locale": "en",
   "author": "Tab Cleaner Team",
   "permissions": [
     "tabs",
@@ -31,7 +32,7 @@
         "default": "Alt+Shift+D",
         "mac": "Command+Shift+D"
       },
-      "description": "Tekrarlayan sekmeleri bul ve kapat"
+      "description": "__MSG_commandDescription__"
     }
   },
   "icons": {
@@ -41,7 +42,7 @@
     "128": "icons/128.png"
   },
   "action": {
-    "default_title": "Tab Cleaner - Tekrarlayan sekmeleri temizle",
+    "default_title": "__MSG_actionTitle__",
     "default_popup": ""
   },
   "minimum_chrome_version": "88",

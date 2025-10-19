@@ -1,0 +1,54 @@
+{
+  "extensionName": {
+    "message": "Tab Cleaner",
+    "description": "Extension name"
+  },
+  "extensionDescription": {
+    "message": "Automatically detects and removes duplicate tabs with user confirmation. Cleans tracking parameters for better duplicate detection.",
+    "description": "Extension description"
+  },
+  "commandDescription": {
+    "message": "Find and close duplicate tabs",
+    "description": "Keyboard command description"
+  },
+  "actionTitle": {
+    "message": "Tab Cleaner - Clean duplicate tabs",
+    "description": "Extension action title"
+  },
+  "noDuplicatesFound": {
+    "message": "No duplicate tabs found 🎉",
+    "description": "Message when no duplicates are found"
+  },
+  "duplicatesFoundConfirm": {
+    "message": "$COUNT$ duplicate tabs found. Click to close them.",
+    "description": "Confirmation message for duplicate tabs",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "duplicatesClosed": {
+    "message": "$COUNT$ duplicate tabs closed ✅",
+    "description": "Success message after closing tabs",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "unexpectedError": {
+    "message": "An unexpected error occurred ❌",
+    "description": "Generic error message"
+  },
+  "closeButton": {
+    "message": "Close",
+    "description": "Close button text"
+  },
+  "cancelButton": {
+    "message": "Cancel",
+    "description": "Cancel button text"
+  }
+}
