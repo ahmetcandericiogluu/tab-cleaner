@@ -11,62 +11,67 @@ async function handleDuplicateTabs() {
 
   for (const tab of tabs) {
     const url = cleanUrl(tab.url);
-    if (seenUrls.has(url)) {
+
+    const isEmpty =
+      !url ||
+      url === "about:blank" ||
+      url === "chrome://newtab/" ||
+      url.startsWith("data:");
+
+    const key = isEmpty ? "__EMPTY_TAB__" : url;
+
+    if (seenUrls.has(key)) {
       duplicates.push(tab);
     } else {
-      seenUrls.set(url, tab);
+      seenUrls.set(key, tab);
     }
   }
 
   if (duplicates.length === 0) {
-    chrome.notifications.create({
+    return chrome.notifications.create({
       type: "basic",
       iconUrl: "icons/48.png",
       title: "Tab Cleaner",
-      message: "Tekrarlayan sekme bulunamadı 🎉"
+      message: "Tekrarlayan sekme bulunamadı 🎉",
     });
-    return;
   }
 
-  // 🔹 Highlight CSS
-  for (const tab of duplicates) {
-    try {
-      await chrome.scripting.insertCSS({
-        target: { tabId: tab.id },
-        files: ["styles.css"]
-      });
-    } catch (e) {
-      console.warn("Highlight eklenemedi:", e);
-    }
-  }
-
-  // 🔹 Aktif sekmede content.js'i manuel enjekte et
+  // 🔹 Aktif sekme (confirm göstereceğimiz sekme)
   const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (!activeTab) return;
 
-  try {
-    await chrome.scripting.executeScript({
-      target: { tabId: activeTab.id },
-      files: ["content.js"]
-    });
-  } catch (e) {
-    console.warn("content.js inject edilemedi:", e);
+  const isActiveTabEmpty =
+    !activeTab.url ||
+    activeTab.url === "about:blank" ||
+    activeTab.url === "chrome://newtab/" ||
+    activeTab.url.startsWith("data:");
+
+  let confirmed = false;
+
+  // 🧠 Eğer aktif sekme inject edilebilir değilse → fallback confirm penceresi
+  if (isActiveTabEmpty) {
+    confirmed = confirm(`${duplicates.length} tekrarlayan sekme bulundu. Kapatılsın mı?`);
+  } else {
+    // 🔹 Inject edilebiliyorsa normal şekilde popup göster
+    const response = await chrome.scripting
+      .executeScript({
+        target: { tabId: activeTab.id },
+        func: (count) =>
+          confirm(`${count} tekrarlayan sekme bulundu. Kapatılsın mı?`),
+        args: [duplicates.length],
+      })
+      .catch(() => [{ result: false }]);
+
+    confirmed = response && response[0] && response[0].result;
   }
 
-  // 🔹 Onay iste
-  const response = await chrome.tabs.sendMessage(activeTab.id, {
-    action: "askConfirmation",
-    count: duplicates.length
-  }).catch(() => null);
-
-  if (!response || !response.confirmed) {
-    chrome.notifications.create({
+  if (!confirmed) {
+    return chrome.notifications.create({
       type: "basic",
       iconUrl: "icons/48.png",
       title: "Tab Cleaner",
-      message: "İşlem iptal edildi ❌"
+      message: "İşlem iptal edildi ❌",
     });
-    return;
   }
 
   // 🔹 Duplicate tableri kapat
@@ -78,15 +83,17 @@ async function handleDuplicateTabs() {
     type: "basic",
     iconUrl: "icons/48.png",
     title: "Tab Cleaner",
-    message: `${duplicates.length} tekrarlayan sekme kapatıldı ✅`
+    message: `${duplicates.length} tekrarlayan sekme kapatıldı ✅`,
   });
 }
 
+// 🔹 URL temizleyici
 function cleanUrl(url) {
   try {
+    if (!url) return "";
     const u = new URL(url);
     return u.href;
   } catch {
-    return url;
+    return url || "";
   }
 }
