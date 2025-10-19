@@ -50,7 +50,7 @@ class TabCleaner {
       this.showNotification(`${duplicates.length} tekrarlayan sekme kapatıldı ✅`);
       
     } catch (error) {
-      console.error('Tab cleaning error:', error);
+      // Silent error handling for production
       // Don't show error notification for common issues
       if (!error.message?.includes('Cannot access')) {
         this.showNotification('Beklenmeyen bir hata oluştu ❌');
